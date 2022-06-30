@@ -5,11 +5,11 @@ import UserProfile from './UserProfile'
 function App() {
   const [input, setInput] = useState('')
   const [data, setData] = useState([])
+  const validUser = []
 
   const handleInputChange = (event) => {
     const message = event.target.value
     setInput(message)
-    console.log('handleInput')
   }
 
   const handleClick = (event) => {
@@ -20,6 +20,7 @@ function App() {
 
   function checkUsername(user) {
     const userName = user
+    setData([])
     fetch(`https://api.github.com/users/${userName}`)
       .then((response) => {
         if (!response.ok) throw new Error(response.status)
