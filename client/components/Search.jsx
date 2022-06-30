@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
-function App() {
+function Search() {
   const [user, setUser] = useState('')
   const [input, setInput] = useState('')
 
@@ -11,6 +11,7 @@ function App() {
   const handleClick = (event) => {
     event.preventDefault()
     setUser(input)
+    console.log(input)
   }
 
   // useEffect((){})
@@ -33,4 +34,4 @@ function App() {
   )
 }
 
-export default App
+export default Search
