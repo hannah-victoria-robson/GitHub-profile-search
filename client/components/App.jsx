@@ -1,19 +1,38 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
+
+import UserProfile from './UserProfile'
 
 function App() {
-  const [user, setUser] = useState('')
   const [input, setInput] = useState('')
+  const [data, setData] = useState([])
 
   const handleInputChange = (event) => {
-    setInput(event.target.value)
+    const message = event.target.value
+    setInput(message)
+    console.log('handleInput')
   }
 
   const handleClick = (event) => {
     event.preventDefault()
-    setUser(input)
+    const user = input
+    checkUsername(user)
   }
 
-  // useEffect((){})
+  function checkUsername(user) {
+    const userName = user
+    fetch(`https://api.github.com/users/${userName}`)
+      .then((response) => {
+        if (!response.ok) throw new Error(response.status)
+        else return response.json()
+      })
+      .then((data) => {
+        setData(data)
+      })
+      .catch((error) => {
+        console.log('error: ' + error)
+      })
+  }
+
   return (
     <>
       <h1>Github user search</h1>
@@ -21,14 +40,17 @@ function App() {
         Look up the github profile details of any user by entering their
         username into the search bar below and pressing the submit button.
       </p>
-      <input
-        type="text"
-        id="message"
-        name="message"
-        onChange={handleInputChange}
-        value={input}
-      />
-      <button onClick={handleClick}>Submit Username</button>
+      <form>
+        <input
+          type="text"
+          id="message"
+          name="message"
+          onChange={handleInputChange}
+          value={input}
+        />
+        <button onClick={handleClick}>Submit Username</button>
+      </form>
+      <UserProfile data={data} />
     </>
   )
 }
